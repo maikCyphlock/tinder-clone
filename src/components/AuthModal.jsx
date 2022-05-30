@@ -23,7 +23,7 @@ function AuthModal({ setShowModal, setIsSignup, isSignup, isOpen }) {
 
         return 
       }
-      const response = await axios.post('http://localhost:8080/signup', {email, password})  
+      const response = await axios.post(`http://localhost:8080/${isSignup ? 'signup' : 'login'}`, {email, password})  
       setCookie('Email', response.data.email);
       setCookie('UserId', response.data.userId);
       setCookie('AuthToken', response.data.token);
@@ -31,7 +31,8 @@ function AuthModal({ setShowModal, setIsSignup, isSignup, isOpen }) {
 
       const success = response.status === 201;
      
-      if (success ) navigate('/onboarding')
+      if (success && isSignup) navigate('/onboarding')
+      if (success && !isSignup) navigate('/dashboard')
     } catch (error) {
       console.error(error);
     }
