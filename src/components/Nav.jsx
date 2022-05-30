@@ -6,7 +6,7 @@ function Nav({ minimal, authToken,setShowModal,showModal,setIsSignup }) {
     setShowModal(true);
     setIsSignup(false)
   }
-  authToken=true
+
   return (
     <nav className="nav">
       <div className="logo-container">
