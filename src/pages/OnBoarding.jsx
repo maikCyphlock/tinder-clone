@@ -2,6 +2,7 @@ import { useState } from "react";
 import Nav from "../components/Nav.jsx";
 
 function OnBoarding() {
+ /* Creating a state object with the initial values. */
   const [formData, setFormData] = useState({
     user_id: "",
     first_name: "",
@@ -171,7 +172,7 @@ function OnBoarding() {
             />
             <input type="submit" />
           </section>
-          
+          {/* PROFILE IMAGE  */}
           <section>
           <label htmlFor="about">Profile Photo</label>
           <input type="url" name="url_photo" id="url_photo" onChange={handlerChange} required />
