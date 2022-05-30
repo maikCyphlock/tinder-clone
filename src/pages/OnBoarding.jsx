@@ -33,7 +33,7 @@ function OnBoarding() {
     }))
   };
 
-  console.table(formData);
+
   return (
     <>
       <Nav minimal={true} setShowModal={() => {}} showModal={false} />

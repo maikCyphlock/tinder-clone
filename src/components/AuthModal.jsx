@@ -1,6 +1,11 @@
 import { useState } from "react";
+import axios from 'axios'
+
+import {useNavigate} from 'react-router-dom'
+
 
 function AuthModal({ setShowModal, setIsSignup, isSignup, isOpen }) {
+  const navigate = useNavigate();
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
   const [confirmPassword, setConfirmPassword] = useState(null);
@@ -10,13 +15,19 @@ function AuthModal({ setShowModal, setIsSignup, isSignup, isOpen }) {
   const handlerClick = () => {
     setShowModal(false);
   };
-  const handlerSubmit = (e) => {
+  const HandlerSubmit = async (e) => {
     e.preventDefault();
     try {
       if (isSignup && password !== confirmPassword) {
         setError("Passwords do not match");
+
+        return 
       }
-      console.log("make a post request to our database");
+      const response = await axios.post('http://localhost:8080/signup', {email, password})
+
+      const success = response.status === 201;
+     
+      if (success ) navigate('/onboarding')
     } catch (error) {
       console.error(error);
     }
@@ -32,7 +43,7 @@ function AuthModal({ setShowModal, setIsSignup, isSignup, isOpen }) {
         By clicking Log In, you agree to our terms. Learn how we process your
         data in our Privacy Policy and Cookie Policy.
       </p>
-      <form onSubmit={handlerSubmit}>
+      <form onSubmit={HandlerSubmit}>
         <input
           type="email"
           name="email"
