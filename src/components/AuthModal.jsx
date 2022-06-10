@@ -12,31 +12,35 @@ function AuthModal({ setShowModal, setIsSignup, isSignup, isOpen }) {
   const [error, setError] = useState(null);
   const [cookie,setCookie,RemoveCookie] = useCookies(null)
   console.log(email, password, confirmPassword, isOpen);
+
   const handlerClick = () => {
     setShowModal(false);
   };
-  const HandlerSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (isSignup && password !== confirmPassword) {
-        setError("Passwords do not match");
 
-        return 
-      }
-      const response = await axios.post(`http://localhost:8080/${isSignup ? 'signup' : 'login'}`, {email, password})  
-      setCookie('Email', response.data.email);
-      setCookie('UserId', response.data.userId);
-      setCookie('AuthToken', response.data.token);
+ const HandlerSubmit = async (e) => {
+        e.preventDefault()
 
+        try {
+            if (isSignup && (password !== confirmPassword)) {
+                setError('Passwords need to match!')
+                return
+            }
 
-      const success = response.status === 201;
-     
-      if (success && isSignup) navigate('/onboarding')
-      if (success && !isSignup) navigate('/dashboard')
-    } catch (error) {
-      console.error(error);
+            const response = await axios.post(`http://localhost:8080/${isSignup ? 'signup' : 'login'}`, { email, password })
+
+            setCookie('AuthToken', response.data.token)
+            setCookie('UserId', response.data.userId)
+
+            const success = response.status === 201
+            if (success && isSignup) navigate ('/onboarding')
+            if (success && !isSignup) navigate ('/dashboard')
+            window.location.reload();
+
+        } catch (error) {
+            console.log(error)
+        }
+
     }
-  };
 
   return (
     <dialog open className="auth-modal">
